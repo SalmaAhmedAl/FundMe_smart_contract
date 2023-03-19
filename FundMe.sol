@@ -8,12 +8,19 @@ import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 contract FundMe{
 
     uint256 minNumberUSD =50 * 1e18;
+
+    address[] public funders;
+    mapping (address =>uint256) addressToAmountFunded;
     function fund() public payable{
       //How do we send ETH to this contract?
       require(getConversionRate(msg.value) >= minNumberUSD, "Didn't send enough!");
       //18 decimal
+
+      funders.push(msg.sender);
+      addressToAmountFunded[msg.sender]= msg.value;
+      
     }
-    
+
     function getPrice() public view returns (uint256){
         //ABI
         //Address 0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419
