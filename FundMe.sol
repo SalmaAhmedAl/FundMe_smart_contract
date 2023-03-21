@@ -47,7 +47,10 @@ contract FundMe{
     }
 
     modifier onlyOwner{
-      require(msg.sender == i_owner, "Sender is not owner!");
+       //require(msg.sender == i_owner, "Sender is not owner!");
+      if(msg.sender!= i_owner){
+        revert NotOwner();
+      }
       _;
       //underscore represent the rest of the code will call after this line
     }
