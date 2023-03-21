@@ -6,19 +6,19 @@ import "./PriceConverter.sol";
 
 contract FundMe{
       using PriceConverter for uint256;
-    uint256 minNumberUSD =50 * 1e18;
+    uint256public constant MINIMUM_USD =50 * 1e18;
 
     address[] public funders;
     mapping (address =>uint256) addressToAmountFunded;
-    address public owner;
+    address public immutable i_owner;
 
     constructor(){
-      owner = msg.sender;
+      i_owner = msg.sender;
     }
 
     function fund() public payable{
       //How do we send ETH to this contract?
-      require(msg.value.getConversionRate() >= minNumberUSD, "Didn't send enough!");
+      require(msg.value.getConversionRate() >= MINIMUM_USD, "Didn't send enough!");
       //18 decimal
 
       funders.push(msg.sender);
@@ -47,7 +47,7 @@ contract FundMe{
     }
 
     modifier onlyOwner{
-      require(msg.sender == owner, "Sender is not owner!");
+      require(msg.sender == i_owner, "Sender is not owner!");
       _;
       //underscore represent the rest of the code will call after this line
     }
