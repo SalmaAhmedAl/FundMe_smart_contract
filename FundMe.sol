@@ -55,5 +55,11 @@ contract FundMe{
       //underscore represent the rest of the code will call after this line
     }
     
-
+  receive() external payable{
+      fund();
+    }
+    
+     fallback() external payable{
+      fund();
+    }
 }
